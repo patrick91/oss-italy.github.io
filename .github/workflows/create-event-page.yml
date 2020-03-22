@@ -1,0 +1,26 @@
+name: Create event page
+on: push
+
+jobs:
+  create-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y_%m_%d')"
+
+      - name: Create markdown file from template
+        run:  sed 's/{{data}}/${{steps.date.outputs.date}}/g' _template.md > events/${{steps.date.outputs.date}}.md
+
+      - name: push
+        uses: github-actions-x/commit@v2.5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          push-branch: "master"
+          commit-message: "Add event page for ${{steps.date.outputs.date}}"
+          force-add: "true"
+          files: events/${{steps.date.outputs.date}}.md
+          name: Patrick Arminio
+          email: patrick.arminio@gmail.com
