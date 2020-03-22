@@ -1,0 +1,25 @@
+name: Create Pull Request with a new Event Page
+on: push
+
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Example
+        run: date +%s > events/report.md
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Add report file
+          committer: Patrick Arminio <patrick.arminio@gmail.com>
+          author: Patrick Arminio <patrick.arminio@gmail.com>
+          title: 'Add page for event XXX'
+          labels: event, automated pr
+          branch: events/abc
+      - name: Check outputs
+        run: |
+          echo "Pull Request Number - ${{ env.PULL_REQUEST_NUMBER }}"
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pr_number }}"
