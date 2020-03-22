@@ -9,3 +9,5 @@ github:
     branch: "master"
     path: "/"
   repository_url: "https://github.com/oss-italy/oss-italy.github.io"
+
+theme: jekyll-theme-minimal
